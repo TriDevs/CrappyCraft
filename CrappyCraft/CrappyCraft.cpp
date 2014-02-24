@@ -1,5 +1,4 @@
 #include "CrappyCraft.h"
-#include <Windows.h>
 
 int CrappyCraft::Main(std::vector<std::string> &arguments)
 {
