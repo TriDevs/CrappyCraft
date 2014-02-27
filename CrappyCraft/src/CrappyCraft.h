@@ -1,5 +1,5 @@
-#ifndef _CRAPPY_CRAFT_H
-#define _CRAPPY_CRAFT_H
+#ifndef _CRAPPYCRAFT_H
+#define _CRAPPYCRAFT_H
 
 #include <vector>
 #include <string>

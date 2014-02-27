@@ -11,8 +11,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{AF0058F2-FF72-4002-94D0-F956F0F18278}</ProjectGuid>
-    <RootNamespace>CrappyCraft</RootNamespace>
+    <ProjectGuid>{1DE88E47-2A4B-4A28-BDDC-37D537FAE4D1}</ProjectGuid>
+    <RootNamespace>CrappyCraftLauncher</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -44,12 +44,12 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>lib\boost\boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>lib\boost;lib\openssl\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>lib/boost/libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>lib/boost/stage/lib;lib/openssl/lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libeay32.lib;ssleay32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -67,10 +67,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\CrappyCraft.cpp" />
+    <ClCompile Include="src\Authenticator.cpp" />
+    <ClCompile Include="src\CrappyCraftLauncher.cpp" />
+    <ClCompile Include="src\HTTPSClient.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\CrappyCraft.h" />
+    <ClInclude Include="src\Authenticator.h" />
+    <ClInclude Include="src\CrappyCraftLauncher.h" />
+    <ClInclude Include="src\HTTPSClient.h" />
+    <ClInclude Include="src\Log.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
