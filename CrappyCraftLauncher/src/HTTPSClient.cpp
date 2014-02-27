@@ -15,7 +15,7 @@ HTTPSClient::HTTPSClient()
     context.set_verify_mode(ssl::verify_peer);
     context.set_default_verify_paths();
     context.load_verify_file("mojang.pem");
-    mSSLSocket = new ssl::stream<ip::tcp::socket>(mIOService, context);
+    mpSSLSocket = new ssl::stream<ip::tcp::socket>(mIOService, context);
 }
 
 HTTPSRequest HTTPSClient::SendHTTPSRequest(const boost::property_tree::ptree &crPTree,
@@ -66,7 +66,7 @@ void HTTPSClient::HandleResolve(const boost::system::error_code &crError,
     try
     {
         // Connect to the first endpoint we can connect with
-        async_connect(mSSLSocket->lowest_layer(), criEndpoints,
+        async_connect(mpSSLSocket->lowest_layer(), criEndpoints,
             boost::bind(&HTTPSClient::HandleConnect, this, placeholders::error, rRequest));
     }
     catch (boost::system::system_error ex)
@@ -94,34 +94,37 @@ void HTTPSClient::HandleConnect(const boost::system::error_code &crError, HTTPSR
 
     try
     {
+#ifdef _DEBUG
         char port[6];
-        _itoa_s(mSSLSocket->lowest_layer().remote_endpoint().port(), port, 10);
-        LOG_DEBUG("Connected to " + mSSLSocket->lowest_layer().remote_endpoint().address().to_string()
+        _itoa_s(mpSSLSocket->lowest_layer().remote_endpoint().port(), port, 10);
+        LOG_DEBUG("Connected to " + mpSSLSocket->lowest_layer().remote_endpoint().address().to_string()
             + std::string(":") + port);
+#endif
 
-        mSSLSocket->lowest_layer().set_option(ip::tcp::no_delay(true));
-        mSSLSocket->set_verify_callback(ssl::rfc2818_verification(rRequest.mcHost));
+        mpSSLSocket->lowest_layer().set_option(ip::tcp::no_delay(true));
+        mpSSLSocket->set_verify_callback(ssl::rfc2818_verification(rRequest.mcHost));
 
         // Perform a handshake
         LOG_DEBUG("Performing SSL handshake");
-        mSSLSocket->handshake(ssl::stream_base::client);
+        mpSSLSocket->handshake(ssl::stream_base::client);
         LOG_DEBUG("SSL handshake successful!");
 
         // Write the json into a stringstream
         std::ostringstream json;
         boost::property_tree::write_json(json, rRequest.mcPTree);
-        std::string result;
-        result = json.str();
+        std::string result = json.str();
 
         // Form the request
         streambuf request;
         std::ostream requestStream(&request);
         requestStream << "POST " << rRequest.mcURI << " HTTP/1.1\r\n";
         requestStream << "Host: " << rRequest.mcHost << "\r\n";
-        requestStream << "Accept: *\r\n";
-        requestStream << "Content-Type: application/json\r\n";
-        requestStream << "Content-Length: " << result.length() << "\r\n\r\n";
-        requestStream << result << "\r\n\r\n";
+        requestStream << "Accept: application/json\r\n";
+        requestStream << "Content-Type: application/json; charset=UTF-8\r\n";
+        requestStream << "Content-Length: " << result.length() << "\r\n";
+        requestStream << "Connection: Close\r\n";
+        requestStream << "\r\n";
+        requestStream << result << "\r\n";
 
 #ifdef _DEBUG
         LOG_DEBUG("Request stream begin");
@@ -132,13 +135,13 @@ void HTTPSClient::HandleConnect(const boost::system::error_code &crError, HTTPSR
         LOG_DEBUG("Sending request");
 
         // Send the request
-        write(*mSSLSocket, request);
+        write(*mpSSLSocket, request);
 
         LOG_DEBUG("Request sent");
 
         // Read the response
         streambuf response;
-        read_until(*mSSLSocket, response, "\r\n");
+        read_until(*mpSSLSocket, response, "\r\n");
         std::istream responseStream(&response);
 
 #ifdef _DEBUG
@@ -169,7 +172,7 @@ void HTTPSClient::HandleConnect(const boost::system::error_code &crError, HTTPSR
         }
 
         // Read the response headers
-        read_until(*mSSLSocket, response, "\r\n\r\n");
+        read_until(*mpSSLSocket, response, "\r\n\r\n");
 
 #ifdef _DEBUG
         std::cout << "[DEBUG][Authenticator] Response header begin" << std::endl;
@@ -195,17 +198,6 @@ void HTTPSClient::HandleConnect(const boost::system::error_code &crError, HTTPSR
         return;
     }
 }
-
-bool HTTPSClient::VerifySSLCertificate(const bool preverified,
-    boost::asio::ssl::verify_context &verifyContext) const
-{
-    char pSubjectName[256];
-    X509 *pCertificate = X509_STORE_CTX_get_current_cert(verifyContext.native_handle());
-    X509_NAME_oneline(X509_get_subject_name(pCertificate), pSubjectName, 256);
-    std::cout << "[DEBUG][HTTPSClient] Verifying certificate " << pSubjectName << std::endl;
-    return preverified;
-}
-
 
 HTTPSRequest::HTTPSRequest(const std::string cHost, const std::string cURI,
     const boost::property_tree::ptree cPTree, io_service &rIOService) 

@@ -34,9 +34,6 @@ public:
         const std::string cHost, const std::string cURI);
 
 private:
-    bool VerifySSLCertificate(const bool preverified, 
-        boost::asio::ssl::verify_context &verifyContext) const;
-
     void HandleResolve(const boost::system::error_code &crError,
         const boost::asio::ip::tcp::resolver::iterator &criEndpoints, HTTPSRequest &rRequest);
     void HandleConnect(const boost::system::error_code &crError, HTTPSRequest &rRequest);
@@ -44,7 +41,7 @@ private:
     //std::string mHost, mURI;
     //boost::property_tree::ptree mPTree;
     boost::asio::io_service mIOService;
-    boost::asio::ssl::stream<boost::asio::ip::tcp::socket> *mSSLSocket;
+    boost::asio::ssl::stream<boost::asio::ip::tcp::socket> *mpSSLSocket;
     //boost::thread mIOThread;
     //boost::function<void()> mCallback;
 };
