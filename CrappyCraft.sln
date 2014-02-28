@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CrappyCraft", "CrappyCraft\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CrappyCraftLauncher", "CrappyCraftLauncher\CrappyCraftLauncher.vcxproj", "{1DE88E47-2A4B-4A28-BDDC-37D537FAE4D1}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CrappyCraftGraphics", "CrappyCraftGraphics\CrappyCraftGraphics.vcxproj", "{C0A9F147-C2FC-4D2E-9934-19FBD24FF8A5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -21,6 +23,10 @@ Global
 		{1DE88E47-2A4B-4A28-BDDC-37D537FAE4D1}.Debug|Win32.Build.0 = Debug|Win32
 		{1DE88E47-2A4B-4A28-BDDC-37D537FAE4D1}.Release|Win32.ActiveCfg = Release|Win32
 		{1DE88E47-2A4B-4A28-BDDC-37D537FAE4D1}.Release|Win32.Build.0 = Release|Win32
+		{C0A9F147-C2FC-4D2E-9934-19FBD24FF8A5}.Debug|Win32.ActiveCfg = Debug|Win32
+		{C0A9F147-C2FC-4D2E-9934-19FBD24FF8A5}.Debug|Win32.Build.0 = Debug|Win32
+		{C0A9F147-C2FC-4D2E-9934-19FBD24FF8A5}.Release|Win32.ActiveCfg = Release|Win32
+		{C0A9F147-C2FC-4D2E-9934-19FBD24FF8A5}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
