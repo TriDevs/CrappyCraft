@@ -4,22 +4,64 @@
 #include <iostream>
 #include <boost/asio.hpp>
 #include <boost/asio/ssl.hpp>
-#if defined(_WIN32) && defined(_DEBUG)
-//# define WIN32_LEAN_AND_MEAN
-//# include <Windows.h>
-#endif
+#include <boost/lexical_cast.hpp>
+#include <windows.h>
 
 int CrappyCraftLauncher::Main(std::vector<std::string> &arguments)
 {
-	Authenticator auth;
-	auth.Authenticate("vijfhoek", "test123");
-    std::cin.get();
+    if (arguments.size() != 3)
+    {
+        std::cout << "Syntax: " << arguments[0] << " <username> <password>" << std::endl;
+        return 1;
+    }
 
+    Authenticator auth;
+    AuthenticateResult r = auth.Authenticate(arguments[1], arguments[2]);
 
-	//MessageBox(NULL, "Wait", "Waiting", 0);
+    if (!r.Success)
+    {
+        std::cerr << "Failed to log in: " << r.ErrorMessage << std::endl;
+        return 1;
+    }
+
+    if (!r.HasMinecraft)
+    {
+        std::cerr << "You need a Minecraft license to start CrappyCraft." << std::endl;
+        return 1;
+    }
+
+    LaunchCrappyCraft();
 
 	return 0;
 }
+
+#ifdef _WIN32
+#include <windows.h>
+#include <Shlobj.h>
+void CrappyCraftLauncher::LaunchCrappyCraft()
+{
+    STARTUPINFO si;
+    ZeroMemory(&si, sizeof(si));
+    si.cb = sizeof(si);
+    PROCESS_INFORMATION pi;
+    ZeroMemory(&pi, sizeof(pi));
+
+    // Get the AppData folder
+    char appdata[MAX_PATH];
+    SHGetFolderPathA(NULL, CSIDL_APPDATA, NULL, SHGFP_TYPE_CURRENT, appdata);
+
+    std::string path = (std::string)appdata + "\\CrappyCraft\\bin\\crappycraft.exe";
+
+    LOG_DEBUG(path);
+
+    CreateProcessA(path.c_str(), NULL, NULL, NULL, false, 0, NULL, NULL, &si, &pi);
+
+    LOG_DEBUG(boost::lexical_cast<std::string>(GetLastError()));
+    //CloseHandle(pi.hProcess);
+    //CloseHandle(pi.hThread);
+}
+
+#endif
 
 int main(int argc, char **argv)
 {

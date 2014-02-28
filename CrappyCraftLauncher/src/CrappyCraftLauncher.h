@@ -8,6 +8,8 @@ class CrappyCraftLauncher
 {
 public:
 	int Main(std::vector<std::string> &arguments);
+
+    void LaunchCrappyCraft();
 };
 
 #endif // _CRAPPYCRAFTLAUNCHER_H

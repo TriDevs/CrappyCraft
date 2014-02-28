@@ -5,11 +5,12 @@
 #include <boost/property_tree/json_parser.hpp>
 #include <boost/thread.hpp>
 #include <boost/function.hpp>
+#include <boost/lexical_cast.hpp>
 #include <string>
 
 using namespace boost::asio;
 
-HTTPSClient::HTTPSClient()
+HTTPSClient::HTTPSClient() : mResponseStream(&mResponse)
 {
     ssl::context context(ssl::context::sslv23);
     context.set_verify_mode(ssl::verify_peer);
@@ -18,12 +19,13 @@ HTTPSClient::HTTPSClient()
     mpSSLSocket = new ssl::stream<ip::tcp::socket>(mIOService, context);
 }
 
-HTTPSRequest HTTPSClient::SendHTTPSRequest(const boost::property_tree::ptree &crPTree,
+HTTPSResult HTTPSClient::SendHTTPSRequest(const boost::property_tree::ptree &crPTree,
     const std::string cHost, const std::string cURI)
 {
-    HTTPSRequest request(cHost, cURI, crPTree, mIOService);
-
     LOG_DEBUG("Resolving " + cHost);
+    mPTreeRequest = crPTree;
+    mHost = cHost;
+    mURI = cURI;
 
     // Resolve the Minecraft authentication server name
     ip::tcp::resolver::iterator tcpEndpointIterator;
@@ -33,11 +35,10 @@ HTTPSRequest HTTPSClient::SendHTTPSRequest(const boost::property_tree::ptree &cr
         ip::tcp::resolver tcpResolver(mIOService);
         ip::tcp::resolver::query tcpResolverQuery(cHost, "https");
         tcpResolver.async_resolve(tcpResolverQuery, boost::bind(&HTTPSClient::HandleResolve, this, 
-            placeholders::error, placeholders::iterator, request));
+            placeholders::error, placeholders::iterator));
         
-        boost::thread ioThread(boost::bind(&io_service::run, &mIOService));
-        
-        while (true);
+        mIOService.run();
+        LOG_DEBUG("mIOService returned");
     }
     catch (boost::system::system_error ex)
     {
@@ -50,40 +51,25 @@ HTTPSRequest HTTPSClient::SendHTTPSRequest(const boost::property_tree::ptree &cr
         std::cin.get();
     }
 
-    return request;
+    return mHTTPSResult;
 }
 
 void HTTPSClient::HandleResolve(const boost::system::error_code &crError,
-    const ip::tcp::resolver::iterator &criEndpoints, HTTPSRequest &rRequest)
+    const ip::tcp::resolver::iterator &criEndpoints)
 {
     if (crError)
     {
-        LOG_ERROR("Failed to resolve host " + rRequest.mcHost);
+        LOG_ERROR("Failed to resolve host " + mHost);
         std::cin.get();
         return;
     }
 
-    try
-    {
-        // Connect to the first endpoint we can connect with
-        async_connect(mpSSLSocket->lowest_layer(), criEndpoints,
-            boost::bind(&HTTPSClient::HandleConnect, this, placeholders::error, rRequest));
-    }
-    catch (boost::system::system_error ex)
-    {
-        LOG_ERROR(ex.what());
-        std::cin.get();
-        return;
-    }
-    catch (std::exception ex)
-    {
-        LOG_ERROR(ex.what());
-        std::cin.get();
-        return;
-    }
+    // Connect to the first endpoint we can connect with
+    async_connect(mpSSLSocket->lowest_layer(), criEndpoints,
+        boost::bind(&HTTPSClient::HandleConnect, this, placeholders::error));
 }
 
-void HTTPSClient::HandleConnect(const boost::system::error_code &crError, HTTPSRequest &rRequest)
+void HTTPSClient::HandleConnect(const boost::system::error_code &crError)
 {
     if (crError)
     {
@@ -92,115 +78,121 @@ void HTTPSClient::HandleConnect(const boost::system::error_code &crError, HTTPSR
         return;
     }
 
-    try
-    {
 #ifdef _DEBUG
-        char port[6];
-        _itoa_s(mpSSLSocket->lowest_layer().remote_endpoint().port(), port, 10);
-        LOG_DEBUG("Connected to " + mpSSLSocket->lowest_layer().remote_endpoint().address().to_string()
-            + std::string(":") + port);
+    char port[6];
+    _itoa_s(mpSSLSocket->lowest_layer().remote_endpoint().port(), port, 10);
+    LOG_DEBUG("Connected to " + mpSSLSocket->lowest_layer().remote_endpoint().address().to_string()
+        + std::string(":") + port);
 #endif
 
-        mpSSLSocket->lowest_layer().set_option(ip::tcp::no_delay(true));
-        mpSSLSocket->set_verify_callback(ssl::rfc2818_verification(rRequest.mcHost));
+    mpSSLSocket->lowest_layer().set_option(ip::tcp::no_delay(true));
+    mpSSLSocket->set_verify_callback(ssl::rfc2818_verification(mHost));
 
-        // Perform a handshake
-        LOG_DEBUG("Performing SSL handshake");
-        mpSSLSocket->handshake(ssl::stream_base::client);
-        LOG_DEBUG("SSL handshake successful!");
-
-        // Write the json into a stringstream
-        std::ostringstream json;
-        boost::property_tree::write_json(json, rRequest.mcPTree);
-        std::string result = json.str();
-
-        // Form the request
-        streambuf request;
-        std::ostream requestStream(&request);
-        requestStream << "POST " << rRequest.mcURI << " HTTP/1.1\r\n";
-        requestStream << "Host: " << rRequest.mcHost << "\r\n";
-        requestStream << "Accept: application/json\r\n";
-        requestStream << "Content-Type: application/json; charset=UTF-8\r\n";
-        requestStream << "Content-Length: " << result.length() << "\r\n";
-        requestStream << "Connection: Close\r\n";
-        requestStream << "\r\n";
-        requestStream << result << "\r\n";
-
-#ifdef _DEBUG
-        LOG_DEBUG("Request stream begin");
-        std::cout << requestStream.rdbuf();
-        LOG_DEBUG("Request stream end");
-#endif
-
-        LOG_DEBUG("Sending request");
-
-        // Send the request
-        write(*mpSSLSocket, request);
-
-        LOG_DEBUG("Request sent");
-
-        // Read the response
-        streambuf response;
-        read_until(*mpSSLSocket, response, "\r\n");
-        std::istream responseStream(&response);
-
-#ifdef _DEBUG
-        LOG_DEBUG("Response begin");
-        std::cout << responseStream.rdbuf();
-        LOG_DEBUG("Response end");
-#endif
-
-        // Check if the response is okay.
-        std::string httpVersion;
-        responseStream >> httpVersion;
-        unsigned int statusCode;
-        responseStream >> statusCode;
-        std::string statusMessage;
-        std::getline(responseStream, statusMessage);
-
-        if (!responseStream)
-        {
-            LOG_ERROR("Invalid response");
-            std::cin.get();
-            return;
-        }
-        if (httpVersion.substr(0, 5) != "HTTP/")
-        {
-            LOG_ERROR("Invalid protocol: " + httpVersion);
-            std::cin.get();
-            return;
-        }
-
-        // Read the response headers
-        read_until(*mpSSLSocket, response, "\r\n\r\n");
-
-#ifdef _DEBUG
-        std::cout << "[DEBUG][Authenticator] Response header begin" << std::endl;
-        std::string header;
-        while (std::getline(responseStream, header) && (header != "\r" || header != ""))
-            std::cout << header << std::endl;
-        std::cout << "[DEBUG][Authenticator] Response header end" << std::endl;
-#endif
-
-        // TODO: Make this thread-safe
-        rRequest.mFinished = true;
-    }
-    catch (boost::system::system_error ex)
-    {
-        LOG_ERROR(ex.what());
-        std::cin.get();
-        return;
-    }
-    catch (std::exception ex)
-    {
-        LOG_ERROR(ex.what());
-        std::cin.get();
-        return;
-    }
+    // Perform a handshake
+    LOG_DEBUG("Performing SSL handshake");
+    mpSSLSocket->async_handshake(ssl::stream_base::client, 
+        boost::bind(&HTTPSClient::HandleHandshake, this, placeholders::error));
 }
 
-HTTPSRequest::HTTPSRequest(const std::string cHost, const std::string cURI,
-    const boost::property_tree::ptree cPTree, io_service &rIOService) 
-    : mcHost(cHost), mcURI(cURI), mcPTree(cPTree), mrIOService(rIOService)
+void HTTPSClient::HandleHandshake(const boost::system::error_code &crError)
 {
+    if (crError)
+    {
+        LOG_ERROR("Failed to perform SSL handshake");
+        std::cin.get();
+        return;
+    }
+
+    LOG_DEBUG("SSL handshake successful!");
+
+    // Write the json into a stringstream
+    std::ostringstream json;
+    boost::property_tree::write_json(json, mPTreeRequest);
+    std::string result = json.str();
+
+    // Form the request
+    std::string requestString =
+        "POST " + mURI + " HTTP/1.1\r\n"
+        "Host: " + mHost + "\r\n"
+        "User-Agent: crappycraft\r\n"
+        "Accept: application/json\r\n"
+        "Content-Type: application/json; charset=UTF-8\r\n"
+        "Content-Length: " + boost::lexical_cast<std::string>(result.length()) + "\r\n"
+        "Connection: Close\r\n"
+        "\r\n" + result;
+
+    LOG_DEBUG("Sending request");
+    async_write(*mpSSLSocket, buffer(requestString), 
+        boost::bind(&HTTPSClient::HandleWrite, this, placeholders::error));
+}
+
+void HTTPSClient::HandleWrite(const boost::system::error_code &crError)
+{
+    if (crError)
+    {
+        LOG_ERROR("Failed to send HTTPS header");
+        std::cin.get();
+        return;
+    }
+
+    LOG_DEBUG("Request sent");
+
+    // Read the response
+    async_read_until(*mpSSLSocket, mResponse, "\r\n", 
+        boost::bind(&HTTPSClient::HandleReadA, this, placeholders::error));
+    //mIOService.run();
+}
+
+void HTTPSClient::HandleReadA(const boost::system::error_code &crError)
+{
+    if (crError)
+    {
+        LOG_ERROR("Failed to read first header line");
+        std::cin.get();
+        return;
+    }
+
+    // Check if the response is okay.
+    std::string httpVersion;
+    mResponseStream >> httpVersion;
+    LOG_DEBUG("HTTP version: " + httpVersion);
+    mResponseStream >> mHTTPSResult.statusCode;
+    LOG_DEBUG("Status code: " + boost::lexical_cast<std::string>(mHTTPSResult.statusCode));
+    std::string statusMessage;
+    std::getline(mResponseStream, statusMessage);
+    LOG_DEBUG("Status message:" + statusMessage);
+
+    if (!mResponseStream.good())
+    {
+        LOG_ERROR("Invalid response");
+        std::cin.get();
+        return;
+    }
+    if (httpVersion.substr(0, 5) != "HTTP/")
+    {
+        LOG_ERROR("Invalid protocol: " + httpVersion);
+        std::cin.get();
+        return;
+    }
+
+    // Read the response headers
+    async_read(*mpSSLSocket, mResponse,
+        boost::bind(&HTTPSClient::HandleReadB, this, placeholders::error));
+    //mIOService.run();
+}
+
+void HTTPSClient::HandleReadB(const boost::system::error_code &crError)
+{
+#ifdef _DEBUG
+    LOG_DEBUG("Response header begin");
+    std::string header;
+    while (std::getline(mResponseStream, header) && (header != "\r" && header != ""))
+        std::cout << header << std::endl;
+    LOG_DEBUG("Response header end");
+#endif
+
+    // Parse the tree
+    boost::property_tree::read_json(mResponseStream, mHTTPSResult.pTree);
+    LOG_DEBUG("We're done here!");
+    mIOService.stop();
 }
