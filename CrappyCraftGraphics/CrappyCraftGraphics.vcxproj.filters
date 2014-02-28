@@ -15,13 +15,16 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\GUI\Button.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Vectors\Vec2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Vectors\Vec3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GUI\Controls\Button.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GUI\Controls\Control.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -30,6 +33,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Vectors\Vec3.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GUI\Controls\Control.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GUI\Controls\Button.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

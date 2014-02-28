@@ -27,7 +27,7 @@ T Vec3<T>::operator[](int i) const
 template <class T>
 T &Vec3<T>::operator[](int i)
 {
-	return{ x, y, z }[i];
+	return { x, y, z }[i];
 }
 
 

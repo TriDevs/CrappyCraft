@@ -11,11 +11,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\GUI\Button.h" />
+    <ClInclude Include="src\GUI\Controls\Button.h" />
+    <ClInclude Include="src\GUI\Controls\Control.h" />
     <ClInclude Include="src\Vectors\Vec2.h" />
     <ClInclude Include="src\Vectors\Vec3.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\GUI\Controls\Button.cpp" />
+    <ClCompile Include="src\GUI\Controls\Control.cpp" />
     <ClCompile Include="src\Vectors\Vec2.cpp" />
     <ClCompile Include="src\Vectors\Vec3.cpp" />
   </ItemGroup>
