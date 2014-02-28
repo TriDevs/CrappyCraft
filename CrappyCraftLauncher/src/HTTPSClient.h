@@ -1,5 +1,5 @@
-#ifndef _HTTPSCLIENT_H
-#define _HTTPSCLIENT_H
+#ifndef HTTPSCLIENT_H
+#define HTTPSCLIENT_H
 
 // Prevent anything from including WinSock.h
 #include <WinSock2.h>

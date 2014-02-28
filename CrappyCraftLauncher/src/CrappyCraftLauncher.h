@@ -1,5 +1,5 @@
-#ifndef _CRAPPYCRAFTLAUNCHER_H
-#define _CRAPPYCRAFTLAUNCHER_H
+#ifndef CRAPPYCRAFTLAUNCHER_H
+#define CRAPPYCRAFTLAUNCHER_H
 
 #include <vector>
 #include <string>

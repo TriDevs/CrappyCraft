@@ -1,5 +1,5 @@
-#ifndef _AUTHENTICATOR_H
-#define _AUTHENTICATOR_H
+#ifndef AUTHENTICATOR_H
+#define AUTHENTICATOR_H
 
 #include "HTTPSClient.h"
 

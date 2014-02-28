@@ -1,5 +1,5 @@
-#ifndef _LOG_H
-#define _LOG_H
+#ifndef LOG_H
+#define LOG_H
 
 #ifdef _DEBUG
 # define LOG_DEBUG(_x_) std::cout << "[DEBUG][" __FUNCTION__ "] " << _x_ << std::endl;
