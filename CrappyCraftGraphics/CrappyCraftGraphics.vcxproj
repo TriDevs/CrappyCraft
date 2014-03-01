@@ -11,12 +11,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Display.h" />
     <ClInclude Include="src\GUI\Controls\Button.h" />
     <ClInclude Include="src\GUI\Controls\Control.h" />
     <ClInclude Include="src\Vectors\Vec2.h" />
     <ClInclude Include="src\Vectors\Vec3.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Display.cpp" />
     <ClCompile Include="src\GUI\Controls\Button.cpp" />
     <ClCompile Include="src\GUI\Controls\Control.cpp" />
     <ClCompile Include="src\Vectors\Vec2.cpp" />
@@ -59,11 +61,15 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>lib/glew/include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>lib/glew/lib/Release/Win32</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>

@@ -3,7 +3,7 @@
 #include "../../Vectors/Vec2.h"
 #include <string>
 
-namespace GUI
+namespace Graphics
 {
 	namespace Controls
 	{
@@ -24,7 +24,12 @@ namespace GUI
 			/// <summary>
 			///     The ID of this control, used as reference.
 			/// </summary>
-			int mID;
+			unsigned int mID;
+
+			/// <summary>
+			///     The ID of the vertex buffer, used by OpenGL.
+			/// </summary>
+			unsigned int mVertexBuffer;
 
 			/// <summary>
 			///     A 2D vector with the position of the control.
