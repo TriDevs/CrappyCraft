@@ -9,7 +9,7 @@ namespace Graphics
 	class Display
 	{
 	public:
-		static void Create(Vec2i size = { 1280, 720 }, bool fullscreen = 0, bool resizable = 1, 
+		static void Create(Vec2i size = Vec2i(1280, 720), bool fullscreen = 0, bool resizable = 1, 
 			std::string title = "");
 
 		static void SetWindowSize(Vec2i size);

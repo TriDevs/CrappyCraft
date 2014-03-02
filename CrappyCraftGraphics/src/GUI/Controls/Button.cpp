@@ -19,10 +19,10 @@ void Graphics::Controls::Button::Render()
 	// Create a VBO
 	double pVertexBufferData[] =
 	{
-		mPosition.x,           mPosition.y,           0.0,
-		mPosition.x + mSize.x, mPosition.y,           0.0,
-		mPosition.x + mSize.x, mPosition.y + mSize.y, 0.0,
-		mPosition.x,           mPosition.y + mSize.y, 0.0
+		mPosition.X,           mPosition.Y,           0.0,
+		mPosition.X + mSize.X, mPosition.Y,           0.0,
+		mPosition.X + mSize.X, mPosition.Y + mSize.Y, 0.0,
+		mPosition.X,           mPosition.Y + mSize.Y, 0.0
 	};
 
 	// Bind the buffer

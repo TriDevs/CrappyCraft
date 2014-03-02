@@ -21,8 +21,6 @@
     <ClCompile Include="src\Display.cpp" />
     <ClCompile Include="src\GUI\Controls\Button.cpp" />
     <ClCompile Include="src\GUI\Controls\Control.cpp" />
-    <ClCompile Include="src\Vectors\Vec2.cpp" />
-    <ClCompile Include="src\Vectors\Vec3.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{C0A9F147-C2FC-4D2E-9934-19FBD24FF8A5}</ProjectGuid>

@@ -13,7 +13,7 @@ void Graphics::Display::Create(Vec2i size, bool fullscreen, bool resizable, std:
 
 	glfwWindowHint(GLFW_RESIZABLE, mResizable);
 
-	mpWindow = glfwCreateWindow(mWindowSize.x, mWindowSize.y, mTitle.c_str(), 
+	mpWindow = glfwCreateWindow(mWindowSize.X, mWindowSize.Y, mTitle.c_str(), 
 		mFullscreen ? glfwGetPrimaryMonitor() : NULL, NULL);
 }
 
@@ -23,7 +23,7 @@ void Graphics::Display::SetWindowSize(Vec2i size)
 
 	if (mCreated)
 	{
-		glfwSetWindowSize(mpWindow, size.x, size.y);
+		glfwSetWindowSize(mpWindow, size.X, size.Y);
 	}
 }
 
@@ -101,3 +101,12 @@ void Graphics::Display::SwapBuffers()
 {
 	glfwSwapBuffers(mpWindow);
 }
+
+Vec2i Graphics::Display::mWindowSize;
+bool Graphics::Display::mFullscreen;
+bool Graphics::Display::mResizable;
+std::string Graphics::Display::mTitle;
+
+bool Graphics::Display::mCreated;
+bool Graphics::Display::mInitialized;
+GLFWwindow *Graphics::Display::mpWindow;
