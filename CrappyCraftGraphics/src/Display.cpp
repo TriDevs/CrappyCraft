@@ -8,29 +8,61 @@ void Graphics::Display::Create(Vec2i size, bool fullscreen, bool resizable, std:
 	mResizable = resizable;
 	mTitle = title;
 
-	mpWindow = glfwCreateWindow(size.x, size.y, title.c_str(),
+	if (!mInitialized)
+		glfwInit();
+
+	glfwWindowHint(GLFW_RESIZABLE, mResizable);
+
+	mpWindow = glfwCreateWindow(mWindowSize.x, mWindowSize.y, mTitle.c_str(), 
 		mFullscreen ? glfwGetPrimaryMonitor() : NULL, NULL);
 }
 
 void Graphics::Display::SetWindowSize(Vec2i size)
 {
 	mWindowSize = size;
-	glfwSetWindowSize(mpWindow, size.x, size.y);
+
+	if (mCreated)
+	{
+		glfwSetWindowSize(mpWindow, size.x, size.y);
+	}
 }
 
 void Graphics::Display::SetFullscreen(bool fullscreen)
 {
-	mFullscreen = fullscreen;
+	if (mFullscreen != fullscreen)
+	{
+		mFullscreen = fullscreen;
+
+		if (mCreated)
+		{
+			glfwDestroyWindow(mpWindow);
+			Create(mWindowSize, mFullscreen, mResizable, mTitle);
+		}
+	}
 }
 
 void Graphics::Display::SetResizable(bool resizable)
 {
-	mResizable = resizable;
+	if (mResizable != resizable)
+	{
+		mResizable = resizable;
+
+		if (mCreated)
+		{
+			glfwDestroyWindow(mpWindow);
+			Create(mWindowSize, mFullscreen, mResizable, mTitle);
+		}
+	}
 }
 
 void Graphics::Display::SetTitle(std::string title)
 {
 	mTitle = title;
+
+	if (mCreated)
+	{
+		glfwSetWindowTitle(mpWindow, mTitle.c_str());
+	}
 }
 
 
@@ -52,4 +84,20 @@ bool Graphics::Display::GetResizable()
 std::string Graphics::Display::GetTitle()
 {
 	return mTitle;
+}
+
+GLFWwindow *Graphics::Display::GetWindow()
+{
+	return mpWindow;
+}
+
+
+bool Graphics::Display::ShouldClose()
+{
+	return glfwWindowShouldClose(mpWindow) & 1; // "& 1" to stop MSVC from complaining
+}
+
+void Graphics::Display::SwapBuffers()
+{
+	glfwSwapBuffers(mpWindow);
 }

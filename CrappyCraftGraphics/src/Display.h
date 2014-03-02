@@ -9,8 +9,8 @@ namespace Graphics
 	class Display
 	{
 	public:
-		static void Create(Vec2i size = { 1280, 720 }, bool fullscreen = 0,
-			bool resizable = 1, std::string title = "");
+		static void Create(Vec2i size = { 1280, 720 }, bool fullscreen = 0, bool resizable = 1, 
+			std::string title = "");
 
 		static void SetWindowSize(Vec2i size);
 		static void SetFullscreen(bool fullscreen);
@@ -21,6 +21,10 @@ namespace Graphics
 		static bool GetFullscreen();
 		static bool GetResizable();
 		static std::string GetTitle();
+		static GLFWwindow *GetWindow();
+
+		static bool ShouldClose();
+		static void SwapBuffers();
 
 	private:
 		static Vec2i mWindowSize;
@@ -28,6 +32,8 @@ namespace Graphics
 		static bool mResizable;
 		static std::string mTitle;
 
+		static bool mCreated;
+		static bool mInitialized;
 		static GLFWwindow *mpWindow;
 	};
 }
