@@ -32,7 +32,7 @@ int CrappyCraftLauncher::Main(std::vector<std::string> &arguments)
 
     LaunchCrappyCraft();
 
-	return 0;
+    return 0;
 }
 
 #ifdef _WIN32
@@ -65,6 +65,6 @@ void CrappyCraftLauncher::LaunchCrappyCraft()
 
 int main(int argc, char **argv)
 {
-	std::vector<std::string> arguments(argv, argv + argc);
-	return CrappyCraftLauncher().Main(arguments);
+    std::vector<std::string> arguments(argv, argv + argc);
+    return CrappyCraftLauncher().Main(arguments);
 }

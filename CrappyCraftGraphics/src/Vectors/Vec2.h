@@ -5,24 +5,24 @@ template <typename T>
 class Vec2
 {
 public:
-	Vec2();
-	Vec2(T x, T y);
-	T Length() const;
+    Vec2();
+    Vec2(T x, T y);
+    T Length() const;
 
-	T operator[](int i) const;
-	T &operator[](int i);
+    T operator[](int i) const;
+    T &operator[](int i);
 
-	void operator+=(const Vec2 &other);
-	void operator-=(const Vec2 &other);
-	void operator*=(const T scalar);
-	void operator/=(const T scalar);
+    void operator+=(const Vec2 &other);
+    void operator-=(const Vec2 &other);
+    void operator*=(const T scalar);
+    void operator/=(const T scalar);
 
-	Vec2 operator+(const Vec2 &other) const;
-	Vec2 operator-(const Vec2 &other) const;
-	Vec2 operator*(const T scalar) const;
-	Vec2 operator/(const T scalar) const;
+    Vec2 operator+(const Vec2 &other) const;
+    Vec2 operator-(const Vec2 &other) const;
+    Vec2 operator*(const T scalar) const;
+    Vec2 operator/(const T scalar) const;
 
-	T X, Y;
+    T X, Y;
 };
 
 
@@ -40,74 +40,74 @@ inline Vec2<T>::Vec2(T x, T y) : X(x), Y(y)
 template <typename T>
 inline T Vec2<T>::Length() const
 {
-	return std::sqrt(X*X + Y*Y);
+    return std::sqrt(X*X + Y*Y);
 }
 
 
 template <typename T>
 inline T Vec2<T>::operator[](int i) const
 {
-	return i ? Y : X;
+    return i ? Y : X;
 }
 
 template <typename T>
 inline T &Vec2<T>::operator[](int i)
 {
-	return i ? y : x;
+    return i ? y : x;
 }
 
 
 template <typename T>
 inline void Vec2<T>::operator+=(const Vec2 &other)
 {
-	x += other.x;
-	y += other.y;
+    x += other.x;
+    y += other.y;
 }
 
 template <typename T>
 inline void Vec2<T>::operator-=(const Vec2 &other)
 {
-	x -= other.x;
-	y -= other.y;
+    x -= other.x;
+    y -= other.y;
 }
 
 template <typename T>
 inline void Vec2<T>::operator*=(const T scalar)
 {
-	x *= scalar;
-	y *= scalar;
+    x *= scalar;
+    y *= scalar;
 }
 
 template <typename T>
 inline void Vec2<T>::operator/=(const T scalar)
 {
-	x /= scalar;
-	y /= scalar;
+    x /= scalar;
+    y /= scalar;
 }
 
 
 template <typename T>
 inline Vec2<T> Vec2<T>::operator+(const Vec2 &other) const
 {
-	return Vec2<T>(x + other.x, y + other.y);
+    return Vec2<T>(x + other.x, y + other.y);
 }
 
 template <typename T>
 inline Vec2<T> Vec2<T>::operator-(const Vec2 &other) const
 {
-	return Vec2<T>(x - other.x, y - other.y);
+    return Vec2<T>(x - other.x, y - other.y);
 }
 
 template <typename T>
 inline Vec2<T> Vec2<T>::operator*(const T scalar) const
 {
-	return Vec2<T>(x * scalar, y * scalar);
+    return Vec2<T>(x * scalar, y * scalar);
 }
 
 template <typename T>
 inline Vec2<T> Vec2<T>::operator/(const T scalar) const
 {
-	return Vec2(x / scalar, y / scalar);
+    return Vec2(x / scalar, y / scalar);
 }
 
 

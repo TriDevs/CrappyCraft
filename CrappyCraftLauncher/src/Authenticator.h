@@ -63,20 +63,20 @@ public:
 
 
 private:
-	/// <summary>
-	///     Address to send authentication requests to.
-	/// </summary>
-	const std::string mcAuthAddress = "authserver.mojang.com";
+    /// <summary>
+    ///     Address to send authentication requests to.
+    /// </summary>
+    const std::string mcAuthAddress = "authserver.mojang.com";
 
-	/// <summary>
-	///     Name of the agent, in this case Minecraft.
-	/// </summary>
-	const std::string mcAgentName = "Minecraft";
+    /// <summary>
+    ///     Name of the agent, in this case Minecraft.
+    /// </summary>
+    const std::string mcAgentName = "Minecraft";
 
-	/// <summary>
-	///     Agent version, might be increased by the vanilla Minecraft client.
-	/// </summary>
-	const int mcAgentVersion = 1;
+    /// <summary>
+    ///     Agent version, might be increased by the vanilla Minecraft client.
+    /// </summary>
+    const int mcAgentVersion = 1;
 
     /// <summary>
     ///     The HTTPSClient class used to authenticate.

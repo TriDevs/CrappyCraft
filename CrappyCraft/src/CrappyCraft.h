@@ -7,7 +7,7 @@
 class CrappyCraft
 {
 public:
-	int Main(std::vector<std::string> &arguments);
+    int Main(std::vector<std::string> &arguments);
 };
 
 #endif // _CRAPPY_CRAFT_H

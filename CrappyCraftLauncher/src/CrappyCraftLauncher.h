@@ -7,7 +7,7 @@
 class CrappyCraftLauncher
 {
 public:
-	int Main(std::vector<std::string> &arguments);
+    int Main(std::vector<std::string> &arguments);
 
     void LaunchCrappyCraft();
 };

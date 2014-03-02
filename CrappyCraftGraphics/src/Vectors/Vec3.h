@@ -5,24 +5,24 @@ template <class T>
 class Vec3
 {
 public:
-	Vec3();
-	Vec3(T x, T y, T z);
-	T Length() const;
+    Vec3();
+    Vec3(T x, T y, T z);
+    T Length() const;
 
-	T operator[](int i) const;
-	T &operator[](int i);
+    T operator[](int i) const;
+    T &operator[](int i);
 
-	void operator+=(const Vec3 &other);
-	void operator-=(const Vec3 &other);
-	void operator*=(const T scalar);
-	void operator/=(const T scalar);
+    void operator+=(const Vec3 &other);
+    void operator-=(const Vec3 &other);
+    void operator*=(const T scalar);
+    void operator/=(const T scalar);
 
-	Vec3 operator+(const Vec3 &other) const;
-	Vec3 operator-(const Vec3 &other) const;
-	Vec3 operator*(const T scalar) const;
-	Vec3 operator/(const T scalar) const;
+    Vec3 operator+(const Vec3 &other) const;
+    Vec3 operator-(const Vec3 &other) const;
+    Vec3 operator*(const T scalar) const;
+    Vec3 operator/(const T scalar) const;
 
-	T X, Y, Z;
+    T X, Y, Z;
 };
 
 
@@ -40,78 +40,78 @@ inline Vec3<T>::Vec3(T x, T y, T z) : x(x), y(y), z(z)
 template <class T>
 inline T Vec3<T>::Length() const
 {
-	return std::sqrt(X*X + Y*Y + Z*Z);
+    return std::sqrt(X*X + Y*Y + Z*Z);
 }
 
 
 template <class T>
 inline T Vec3<T>::operator[](int i) const
 {
-	return{ X, Y, Z }[i];
+    return{ X, Y, Z }[i];
 }
 
 template <class T>
 inline T &Vec3<T>::operator[](int i)
 {
-	return{ x, y, z }[i];
+    return{ x, y, z }[i];
 }
 
 
 template <class T>
 inline void Vec3<T>::operator+=(const Vec3 &other)
 {
-	x += other.x;
-	y += other.y;
-	z += other.z;
+    x += other.x;
+    y += other.y;
+    z += other.z;
 }
 
 template <class T>
 inline void Vec3<T>::operator-=(const Vec3 &other)
 {
-	x -= other.x;
-	y -= other.y;
-	z -= other.z;
+    x -= other.x;
+    y -= other.y;
+    z -= other.z;
 }
 
 template <class T>
 inline void Vec3<T>::operator*=(T scalar)
 {
-	x *= scalar;
-	y *= scalar;
-	z *= scalar;
+    x *= scalar;
+    y *= scalar;
+    z *= scalar;
 }
 
 template <class T>
 inline void Vec3<T>::operator/=(T scalar)
 {
-	x /= scalar;
-	y /= scalar;
-	z /= scalar;
+    x /= scalar;
+    y /= scalar;
+    z /= scalar;
 }
 
 
 template <class T>
 inline Vec3<T> Vec3<T>::operator+(const Vec3 &other) const
 {
-	return Vec3<T>(x + other.x, y + other.y, z + other.z);
+    return Vec3<T>(x + other.x, y + other.y, z + other.z);
 }
 
 template <class T>
 inline Vec3<T> Vec3<T>::operator-(const Vec3 &other) const
 {
-	return Vec3<T>(x - other.x, y - other.y, z - other.z);
+    return Vec3<T>(x - other.x, y - other.y, z - other.z);
 }
 
 template <class T>
 inline Vec3<T> Vec3<T>::operator*(T scalar) const
 {
-	return Vec3<T>(x * scalar, y * scalar, z * scalar);
+    return Vec3<T>(x * scalar, y * scalar, z * scalar);
 }
 
 template <class T>
 inline Vec3<T> Vec3<T>::operator/(T scalar) const
 {
-	return Vec3<T>(x / scalar, y / scalar, z / scalar);
+    return Vec3<T>(x / scalar, y / scalar, z / scalar);
 }
 
 
