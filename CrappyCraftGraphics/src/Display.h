@@ -1,6 +1,7 @@
 #ifndef DISPLAY_H
 #define DISPLAY_H
 #include "Vectors/Vec2.h"
+#include <GL/glew.h>
 #include <glfw/glfw3.h>
 #include <string>
 
@@ -23,8 +24,13 @@ namespace Graphics
         static std::string GetTitle();
         static GLFWwindow *GetWindow();
 
+        static void ShowWarning(std::string warning);
+
         static bool ShouldClose();
+        static void PollEvents();
+
         static void SwapBuffers();
+        static void Clear();
 
     private:
         static Vec2i mWindowSize;
@@ -34,6 +40,8 @@ namespace Graphics
 
         static bool mCreated;
         static bool mInitialized;
+        static bool mGLEWInitialized;
+
         static GLFWwindow *mpWindow;
     };
 }

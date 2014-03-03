@@ -1,6 +1,6 @@
 #ifndef CONTROL_H
 #define CONTROL_H
-#include "../../Vectors/Vec2.h"
+#include "../Vectors/Vec2.h"
 #include <string>
 
 namespace Graphics

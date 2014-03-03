@@ -11,7 +11,7 @@ Graphics::Controls::Button::Button(int id, Vec2d position, Vec2d size, std::stri
     bool visible, bool enabled) 
     : Control(id, position, size, visible, enabled), mText(text)
 {
-    Button();
+    glGenBuffers(1, &mVertexBuffer);
 }
 
 void Graphics::Controls::Button::Render()

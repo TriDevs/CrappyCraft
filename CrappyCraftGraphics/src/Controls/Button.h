@@ -1,6 +1,6 @@
 #ifndef BUTTON_H
 #define BUTTON_H
-#include "../../Vectors/Vec2.h"
+#include "../Vectors/Vec2.h"
 #include "Control.h"
 #include <string>
 

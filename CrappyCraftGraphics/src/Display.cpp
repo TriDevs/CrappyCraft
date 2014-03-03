@@ -1,5 +1,8 @@
+#if defined(_WIN32)
+# define WIN32_LEAN_AND_MEAN
+# include <Windows.h>
+#endif
 #include "Display.h"
-#include <GLFW/glfw3.h>
 
 void Graphics::Display::Create(Vec2i size, bool fullscreen, bool resizable, std::string title)
 {
@@ -9,12 +12,29 @@ void Graphics::Display::Create(Vec2i size, bool fullscreen, bool resizable, std:
     mTitle = title;
 
     if (!mInitialized)
-        glfwInit();
+        mInitialized = glfwInit() & 1;
+    if (!mInitialized) throw std::runtime_error("Error initializing GLFW.");
 
     glfwWindowHint(GLFW_RESIZABLE, mResizable);
 
     mpWindow = glfwCreateWindow(mWindowSize.X, mWindowSize.Y, mTitle.c_str(), 
         mFullscreen ? glfwGetPrimaryMonitor() : NULL, NULL);
+    if (!mpWindow)
+    {
+        glfwTerminate();
+        throw std::runtime_error("Error creating GLFW window.");
+    }
+
+    glfwMakeContextCurrent(mpWindow);
+
+    GLenum err;
+    if (!mGLEWInitialized)
+        mGLEWInitialized = GLEW_OK == (err = glewInit());
+    if (!mGLEWInitialized)
+    {
+        glfwTerminate();
+        throw std::runtime_error("Error initializing GLEW: " + std::string((const char *)glewGetErrorString(err)));
+    }
 }
 
 void Graphics::Display::SetWindowSize(Vec2i size)
@@ -102,6 +122,23 @@ void Graphics::Display::SwapBuffers()
     glfwSwapBuffers(mpWindow);
 }
 
+void Graphics::Display::PollEvents()
+{
+    glfwPollEvents();
+}
+
+void Graphics::Display::Clear()
+{
+    glClear(GL_COLOR_BUFFER_BIT);
+}
+
+void Graphics::Display::ShowWarning(std::string warning)
+{
+#if defined(_WIN32)
+    MessageBoxA(NULL, warning.c_str(), "Warning", MB_ICONWARNING);
+#endif
+}
+
 Vec2i Graphics::Display::mWindowSize;
 bool Graphics::Display::mFullscreen;
 bool Graphics::Display::mResizable;
@@ -109,4 +146,5 @@ std::string Graphics::Display::mTitle;
 
 bool Graphics::Display::mCreated;
 bool Graphics::Display::mInitialized;
+bool Graphics::Display::mGLEWInitialized;
 GLFWwindow *Graphics::Display::mpWindow;
