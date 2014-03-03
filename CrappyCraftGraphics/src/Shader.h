@@ -12,6 +12,8 @@ namespace Graphics
         Shader(int shaderType, std::string path);
         ~Shader();
 
+        unsigned int GetShaderID() { return mShaderID; }
+
     private:
         unsigned int mShaderID;
     };
