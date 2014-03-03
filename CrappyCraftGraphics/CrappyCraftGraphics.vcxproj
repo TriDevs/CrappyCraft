@@ -22,6 +22,7 @@
     <ClCompile Include="src\Display.cpp" />
     <ClCompile Include="src\Controls\Button.cpp" />
     <ClCompile Include="src\Controls\Control.cpp" />
+    <ClCompile Include="src\Shader.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{C0A9F147-C2FC-4D2E-9934-19FBD24FF8A5}</ProjectGuid>
