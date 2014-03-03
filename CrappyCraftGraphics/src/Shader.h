@@ -1,6 +1,7 @@
 #ifndef SHADER_H
 #define SHADER_H
 #include <string>
+#include <vector>
 
 namespace Graphics
 {
@@ -16,6 +17,21 @@ namespace Graphics
 
     private:
         unsigned int mShaderID;
+    };
+
+
+    class ShaderProgram
+    {
+    public:
+        ShaderProgram();
+        ShaderProgram(std::vector<Shader> shaders);
+        ~ShaderProgram();
+
+        void Bind();
+        void Unbind();
+
+    private:
+        unsigned int mProgramID;
     };
 }
 

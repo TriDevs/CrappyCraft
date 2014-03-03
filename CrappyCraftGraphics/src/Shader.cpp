@@ -37,3 +37,39 @@ Graphics::Shader::Shader(int shaderType, std::string path)
         throw std::runtime_error("Error compiling shader " + path + ":\n" + log);
     }
 }
+
+Graphics::Shader::~Shader()
+{
+    glDeleteShader(mShaderID);
+}
+
+//////////////////////////////////////////////////////////////////////////
+
+Graphics::ShaderProgram::ShaderProgram()
+    : mProgramID(glCreateProgram())
+{
+}
+
+Graphics::ShaderProgram::ShaderProgram(std::vector<Shader> shaders)
+    : mProgramID(glCreateProgram())
+{
+    for (Shader shader : shaders)
+        glAttachShader(mProgramID, shader.GetShaderID());
+    glLinkProgram(mProgramID);
+}
+
+Graphics::ShaderProgram::~ShaderProgram()
+{
+    Unbind();
+    glDeleteProgram(mProgramID);
+}
+
+void Graphics::ShaderProgram::Bind()
+{
+    glUseProgram(mProgramID);
+}
+
+void Graphics::ShaderProgram::Unbind()
+{
+    glUseProgram(0);
+}
