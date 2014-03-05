@@ -2,6 +2,7 @@
 #define DISPLAY_H
 #include "Vectors/Vec2.h"
 #include <GL/glew.h>
+#define GLFW_INCLUDE_NONE
 #include <glfw/glfw3.h>
 #include <string>
 

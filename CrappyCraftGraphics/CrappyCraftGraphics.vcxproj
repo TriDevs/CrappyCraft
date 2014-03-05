@@ -15,8 +15,10 @@
     <ClInclude Include="src\Controls\Button.h" />
     <ClInclude Include="src\Controls\Control.h" />
     <ClInclude Include="src\Shader.h" />
+    <ClInclude Include="src\Vectors\Mat4.h" />
     <ClInclude Include="src\Vectors\Vec2.h" />
     <ClInclude Include="src\Vectors\Vec3.h" />
+    <ClInclude Include="src\Vectors\Vec4.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Display.cpp" />

@@ -1,6 +1,7 @@
 #include "CrappyCraft.h"
 #include <Display.h>
 #include <Controls/Button.h>
+#include <iostream>
 #include <stdexcept>
 
 int CrappyCraft::Main(std::vector<std::string> &arguments)
@@ -15,7 +16,7 @@ int CrappyCraft::Main(std::vector<std::string> &arguments)
         exit(EXIT_FAILURE);
     }
 
-    Graphics::Controls::Button button(1, Vec2d(-0.5, -0.1), Vec2d(0.5, 0.1), "Button!");
+    Graphics::Controls::Button button(1, Vec2d(-0.5, -0.075), Vec2d(1.0, 0.15), "Button!");
     while (!Graphics::Display::ShouldClose())
     {
         Graphics::Display::Clear();

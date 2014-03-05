@@ -1,7 +1,7 @@
-#ifndef VECTOR2_H
-#define VECTOR2_H
+#ifndef VECTOR3_H
+#define VECTOR3_H
 
-template <class T>
+template <typename T>
 class Vec3
 {
 public:
@@ -26,92 +26,102 @@ public:
 };
 
 
-template <class T>
+template <typename T>
 inline Vec3<T>::Vec3()
 {
 }
 
-template <class T>
-inline Vec3<T>::Vec3(T x, T y, T z) : x(x), y(y), z(z)
+template <typename T>
+inline Vec3<T>::Vec3(T x, T y, T z) : X(x), Y(y), Z(z)
 {
 }
 
 
-template <class T>
+template <typename T>
 inline T Vec3<T>::Length() const
 {
     return std::sqrt(X*X + Y*Y + Z*Z);
 }
 
 
-template <class T>
+template <typename T>
 inline T Vec3<T>::operator[](int i) const
 {
-    return{ X, Y, Z }[i];
+    switch (i)
+    {
+        case 0: return X;
+        case 1: return Y;
+        default: return Z;
+    }
 }
 
-template <class T>
+template <typename T>
 inline T &Vec3<T>::operator[](int i)
 {
-    return{ x, y, z }[i];
+    switch (i)
+    {
+        case 0: return X;
+        case 1: return Y;
+        default: return Z;
+    }
 }
 
 
-template <class T>
+template <typename T>
 inline void Vec3<T>::operator+=(const Vec3 &other)
 {
-    x += other.x;
-    y += other.y;
-    z += other.z;
+    X += other.X;
+    Y += other.Y;
+    Z += other.Z;
 }
 
-template <class T>
+template <typename T>
 inline void Vec3<T>::operator-=(const Vec3 &other)
 {
-    x -= other.x;
-    y -= other.y;
-    z -= other.z;
+    X -= other.X;
+    Y -= other.Y;
+    Z -= other.Z;
 }
 
-template <class T>
+template <typename T>
 inline void Vec3<T>::operator*=(T scalar)
 {
-    x *= scalar;
-    y *= scalar;
-    z *= scalar;
+    X *= scalar;
+    Y *= scalar;
+    Z *= scalar;
 }
 
-template <class T>
+template <typename T>
 inline void Vec3<T>::operator/=(T scalar)
 {
-    x /= scalar;
-    y /= scalar;
-    z /= scalar;
+    X /= scalar;
+    Y /= scalar;
+    Z /= scalar;
 }
 
 
-template <class T>
-inline Vec3<T> Vec3<T>::operator+(const Vec3 &other) const
+template <typename T>
+inline Vec3<T> Vec3<T>::operator+(const Vec3<T> &other) const
 {
-    return Vec3<T>(x + other.x, y + other.y, z + other.z);
+    return Vec3<T>(X + other.X, Y + other.Y, Z + other.Z);
 }
 
-template <class T>
-inline Vec3<T> Vec3<T>::operator-(const Vec3 &other) const
+template <typename T>
+inline Vec3<T> Vec3<T>::operator-(const Vec3<T> &other) const
 {
-    return Vec3<T>(x - other.x, y - other.y, z - other.z);
+    return Vec3<T>(X - other.X, Y - other.Y, Z - other.Z);
 }
 
-template <class T>
+template <typename T>
 inline Vec3<T> Vec3<T>::operator*(T scalar) const
 {
-    return Vec3<T>(x * scalar, y * scalar, z * scalar);
+    return Vec3<T>(X * scalar, Y * scalar, Z * scalar);
 }
 
-template <class T>
+template <typename T>
 inline Vec3<T> Vec3<T>::operator/(T scalar) const
 {
-    return Vec3<T>(x / scalar, y / scalar, z / scalar);
+    return Vec3<T>(X / scalar, Y / scalar, Z / scalar);
 }
 
 
