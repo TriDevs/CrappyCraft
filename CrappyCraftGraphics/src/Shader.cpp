@@ -1,6 +1,7 @@
 #include "Shader.h"
-#include <gl/glew.h>
+#include <GL/glew.h>
 #include <fstream>
+#include <stdexcept>
 
 Graphics::Shader::Shader()
 {

@@ -40,12 +40,12 @@ HTTPSResult HTTPSClient::SendHTTPSRequest(const boost::property_tree::ptree &crP
         mIOService.run();
         LOG_DEBUG("mIOService returned");
     }
-    catch (boost::system::system_error ex)
+    catch (boost::system::system_error &ex)
     {
         LOG_ERROR(ex.what());
         std::cin.get();
     }
-    catch (std::exception ex)
+    catch (std::exception &ex)
     {
         LOG_ERROR(ex.what());
         std::cin.get();
@@ -80,7 +80,7 @@ void HTTPSClient::HandleConnect(const boost::system::error_code &crError)
 
 #ifdef _DEBUG
     char port[6];
-    _itoa_s(mpSSLSocket->lowest_layer().remote_endpoint().port(), port, 10);
+    sprintf(port, "%d", mpSSLSocket->lowest_layer().remote_endpoint().port());
     LOG_DEBUG("Connected to " + mpSSLSocket->lowest_layer().remote_endpoint().address().to_string()
         + std::string(":") + port);
 #endif
@@ -183,13 +183,16 @@ void HTTPSClient::HandleReadA(const boost::system::error_code &crError)
 
 void HTTPSClient::HandleReadB(const boost::system::error_code &crError)
 {
-#ifdef _DEBUG
     LOG_DEBUG("Response header begin");
     std::string header;
     while (std::getline(mResponseStream, header) && (header != "\r" && header != ""))
+    {
+#ifdef _DEBUG
         std::cout << header << std::endl;
-    LOG_DEBUG("Response header end");
 #endif
+    }
+    
+    LOG_DEBUG("Response header end");
 
     // Parse the tree
     boost::property_tree::read_json(mResponseStream, mHTTPSResult.pTree);

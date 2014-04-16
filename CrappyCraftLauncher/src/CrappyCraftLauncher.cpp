@@ -5,7 +5,10 @@
 #include <boost/asio.hpp>
 #include <boost/asio/ssl.hpp>
 #include <boost/lexical_cast.hpp>
-#include <windows.h>
+#ifdef _WIN32
+# include <windows.h>
+# include <Shlobj.h>
+#endif
 
 int CrappyCraftLauncher::Main(std::vector<std::string> &arguments)
 {
@@ -35,11 +38,10 @@ int CrappyCraftLauncher::Main(std::vector<std::string> &arguments)
     return 0;
 }
 
-#ifdef _WIN32
-#include <windows.h>
-#include <Shlobj.h>
+
 void CrappyCraftLauncher::LaunchCrappyCraft()
 {
+#ifdef _WIN32
     STARTUPINFO si;
     ZeroMemory(&si, sizeof(si));
     si.cb = sizeof(si);
@@ -59,9 +61,10 @@ void CrappyCraftLauncher::LaunchCrappyCraft()
     LOG_DEBUG(boost::lexical_cast<std::string>(GetLastError()));
     //CloseHandle(pi.hProcess);
     //CloseHandle(pi.hThread);
-}
-
+#elif defined(__unix__)
+    
 #endif
+}
 
 int main(int argc, char **argv)
 {

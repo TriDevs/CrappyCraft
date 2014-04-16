@@ -4,7 +4,9 @@
 #include "HTTPSClient.h"
 
 // Prevent anything from including WinSock.h
-#include <WinSock2.h>
+#ifdef _WIN32
+# include <WinSock2.h>
+#endif
 
 #include <boost/property_tree/ptree.hpp>
 #include <boost/asio/ssl/verify_context.hpp>

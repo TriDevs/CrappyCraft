@@ -3,6 +3,7 @@
 # include <Windows.h>
 #endif
 #include "Display.h"
+#include <stdexcept>
 
 void Graphics::Display::Create(Vec2i size, bool fullscreen, bool resizable, std::string title)
 {

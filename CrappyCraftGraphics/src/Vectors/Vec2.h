@@ -1,5 +1,6 @@
 #ifndef VECTOR2_H
 #define VECTOR2_H
+#include <cmath>
 
 template <typename T>
 class Vec2
@@ -53,61 +54,61 @@ inline T Vec2<T>::operator[](int i) const
 template <typename T>
 inline T &Vec2<T>::operator[](int i)
 {
-    return i ? y : x;
+    return i ? Y : X;
 }
 
 
 template <typename T>
 inline void Vec2<T>::operator+=(const Vec2 &other)
 {
-    x += other.x;
-    y += other.y;
+    X += other.x;
+    Y += other.y;
 }
 
 template <typename T>
 inline void Vec2<T>::operator-=(const Vec2 &other)
 {
-    x -= other.x;
-    y -= other.y;
+    X -= other.x;
+    Y -= other.y;
 }
 
 template <typename T>
 inline void Vec2<T>::operator*=(const T scalar)
 {
-    x *= scalar;
-    y *= scalar;
+    X *= scalar;
+    Y *= scalar;
 }
 
 template <typename T>
 inline void Vec2<T>::operator/=(const T scalar)
 {
-    x /= scalar;
-    y /= scalar;
+    X /= scalar;
+    Y /= scalar;
 }
 
 
 template <typename T>
 inline Vec2<T> Vec2<T>::operator+(const Vec2 &other) const
 {
-    return Vec2<T>(x + other.x, y + other.y);
+    return Vec2<T>(X + other.X, Y + other.Y);
 }
 
 template <typename T>
 inline Vec2<T> Vec2<T>::operator-(const Vec2 &other) const
 {
-    return Vec2<T>(x - other.x, y - other.y);
+    return Vec2<T>(X - other.X, Y - other.Y);
 }
 
 template <typename T>
 inline Vec2<T> Vec2<T>::operator*(const T scalar) const
 {
-    return Vec2<T>(x * scalar, y * scalar);
+    return Vec2<T>(X * scalar, Y * scalar);
 }
 
 template <typename T>
 inline Vec2<T> Vec2<T>::operator/(const T scalar) const
 {
-    return Vec2(x / scalar, y / scalar);
+    return Vec2(X / scalar, Y / scalar);
 }
 
 

@@ -4,6 +4,12 @@
 # Libraries
 Libraries/
 
+# Makefiles (because of CMake)
+Makefile
+cmake_install.cmake
+CMakeFiles/
+CMakeCache.txt
+
 # Compiled Object files
 *.slo
 *.lo
