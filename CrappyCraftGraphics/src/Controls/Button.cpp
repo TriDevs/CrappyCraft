@@ -18,7 +18,7 @@ Graphics::Controls::Button::~Button()
     glDeleteBuffers(1, &mVertexBuffer);
 }
 
-void Graphics::Controls::Button::Render()
+void Graphics::Controls::Button::CreateVBO()
 {
     // Create a VBO
     double pVertexBufferData[] =
@@ -34,10 +34,19 @@ void Graphics::Controls::Button::Render()
 
     // Send the vertices to OpenGL
     glBufferData(GL_ARRAY_BUFFER, sizeof(pVertexBufferData), pVertexBufferData, GL_STATIC_DRAW);
+}
 
-    // Draw the control
+void Graphics::Controls::Button::Render()
+{
+    // Bind the buffer
+    glBindBuffer(GL_ARRAY_BUFFER, mVertexBuffer);
+
+    // Set the attribute index to the first element
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 2, GL_DOUBLE, false, 0, (void *)0);
     glDrawArrays(GL_QUADS, 0, 4);
     glDisableVertexAttribArray(0);
+
+    // Unbind the buffer
+    glBindBuffer(GL_ARRAY_BUFFER, mVertexBuffer);
 }
