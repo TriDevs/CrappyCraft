@@ -16,6 +16,7 @@ namespace Graphics
                 bool enabled = 1);
             ~Button();
 
+            void CreateVBO();
             void Render();
 
             /// <summary>

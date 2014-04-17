@@ -41,12 +41,14 @@ void Graphics::Controls::Button::Render()
     // Bind the buffer
     glBindBuffer(GL_ARRAY_BUFFER, mVertexBuffer);
 
-    // Set the attribute index to the first element
+    // Tell OpenGL about the buffer
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 2, GL_DOUBLE, false, 0, (void *)0);
+    
+    // Draw the control
     glDrawArrays(GL_QUADS, 0, 4);
-    glDisableVertexAttribArray(0);
 
     // Unbind the buffer
+    glDisableVertexAttribArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, mVertexBuffer);
 }
