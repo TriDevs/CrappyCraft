@@ -3,9 +3,7 @@ project(CrappyCraft)
 
 find_package(OpenSSL REQUIRED)
 find_package(Threads REQUIRED)
-find_package(Boost 1.40.0 COMPONENTS system regex REQUIRED)
-
-#add_definitions(-D_DEBUG)
+find_package(Boost COMPONENTS system regex REQUIRED)
 
 add_executable(CrappyCraftLauncher src/Authenticator.cpp src/CrappyCraftLauncher.cpp src/HTTPSClient.cpp)
 
