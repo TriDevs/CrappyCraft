@@ -1,0 +1,19 @@
+cmake_minimum_required(VERSION 2.6)
+project(CrappyCraft)
+
+find_package(PkgConfig REQUIRED)
+find_package(GLEW REQUIRED)
+find_package(OpenGL REQUIRED)
+
+pkg_search_module(GLFW REQUIRED glfw3)
+
+include_directories(${GLEW_INCLUDE_DIRS})
+include_directories(${GLFW_INCLUDE_DIRS})
+include_directories(../CrappyCraftGraphics/src)
+
+add_executable(CrappyCraft src/CrappyCraft.cpp)
+
+target_link_libraries(CrappyCraft ${GLFW_LIBRARIES})
+target_link_libraries(CrappyCraft ${GLEW_LIBRARIES})
+target_link_libraries(CrappyCraft ${OPENGL_LIBRARIES})
+target_link_libraries(CrappyCraft ${CMAKE_SOURCE_DIR}/lib/libCrappyCraftGraphics.a)
