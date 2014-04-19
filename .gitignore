@@ -24,6 +24,9 @@
 bin/
 lib/
 
+# Assets
+assets/
+
 #~~~~~~~~~ BUILD FILES ~~~~~~~~~~~~#
 # CMake temporary files
 CMakeFiles/
@@ -35,6 +38,7 @@ cmake_install.cmake
 
 # Sublime Text 2
 CrappyCraft.sublime-project
+CrappyCraft.sublime-workspace
 
 # Visual Studio solution files
 *.suo

@@ -1,6 +1,7 @@
 #ifndef CONTROL_H
 #define CONTROL_H
 #include "../Vectors/Vec2.h"
+#include "../Texture.h"
 #include <string>
 
 namespace Graphics
@@ -50,6 +51,11 @@ namespace Graphics
             ///     Whether the control is enabled (not greyed out).
             /// </summary>
             bool mEnabled;
+
+            /// <summary>
+            ///     The control's texture.
+            /// </summary>
+            Texture mTexture;
         private:
         };
     }
