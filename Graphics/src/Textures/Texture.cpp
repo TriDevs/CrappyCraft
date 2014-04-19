@@ -1,5 +1,5 @@
 #include "Texture.h"
-#include "Log.h"
+#include "../Log.h"
 #include <SOIL.h>
 #include <GLFW/glfw3.h>
 

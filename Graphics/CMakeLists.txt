@@ -10,4 +10,13 @@ include_directories(${GLEW_INCLUDE_DIRS})
 include_directories(${GLFW_INCLUDE_DIRS})
 include_directories(${SOIL_INCLUDE_DIRS})
 
-add_library(CrappyCraftGraphics STATIC src/Display.cpp src/Shader.cpp src/Texture.cpp src/Controls/Button.cpp src/Controls/Control.cpp)
+add_library(CrappyCraftGraphics STATIC
+    src/Display.cpp
+    src/Shader.cpp
+
+    src/Controls/Button.cpp
+    src/Controls/Control.cpp
+
+    src/Textures/Texture.cpp
+    src/Textures/TextureManager.cpp
+)

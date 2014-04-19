@@ -1,7 +1,7 @@
 #ifndef CONTROL_H
 #define CONTROL_H
 #include "../Vectors/Vec2.h"
-#include "../Texture.h"
+#include "../Textures/Texture.h"
 #include <string>
 
 namespace Graphics
