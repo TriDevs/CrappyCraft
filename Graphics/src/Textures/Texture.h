@@ -6,14 +6,14 @@
 class Texture
 {
 public:
-	Texture();
-	Texture(const std::string &path);
-	~Texture();
+    Texture();
+    Texture(const std::string &path);
+    ~Texture();
 
     bool IsLoaded() const { return mTexID; };
 
 private:
-	unsigned int mTexID;
+    unsigned int mTexID;
 };
 
 #endif
