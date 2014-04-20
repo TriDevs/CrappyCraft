@@ -6,8 +6,8 @@ Graphics::Controls::Button::Button()
     glGenBuffers(1, &mVertexBuffer);
 }
 
-Graphics::Controls::Button::Button(int id, Vec2d position, Vec2d size, std::string text, 
-    bool visible, bool enabled) 
+Graphics::Controls::Button::Button(int id, Graphics::Vectors::Vec2d position, 
+    Graphics::Vectors::Vec2d size, std::string text, bool visible, bool enabled) 
     : Control(id, position, size, visible, enabled), mText(text)
 {
     glGenBuffers(1, &mVertexBuffer);

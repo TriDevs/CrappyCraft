@@ -1,51 +1,57 @@
 #ifndef VECTOR3_H
 #define VECTOR3_H
 
-template <typename T>
-class Vec3
+namespace Graphics
 {
-public:
-    Vec3();
-    Vec3(T x, T y, T z);
-    T Length() const;
+    namespace Vectors
+    {
+        template <typename T>
+        class Vec3
+        {
+        public:
+            Vec3();
+            Vec3(T x, T y, T z);
+            T Length() const;
 
-    T operator[](int i) const;
-    T &operator[](int i);
+            T operator[](int i) const;
+            T &operator[](int i);
 
-    void operator+=(const Vec3 &other);
-    void operator-=(const Vec3 &other);
-    void operator*=(const T scalar);
-    void operator/=(const T scalar);
+            Vec3 &operator+=(const Vec3 &other);
+            Vec3 &operator-=(const Vec3 &other);
+            Vec3 &operator*=(const T scalar);
+            Vec3 &operator/=(const T scalar);
 
-    Vec3 operator+(const Vec3 &other) const;
-    Vec3 operator-(const Vec3 &other) const;
-    Vec3 operator*(const T scalar) const;
-    Vec3 operator/(const T scalar) const;
+            Vec3 operator+(const Vec3 &other) const;
+            Vec3 operator-(const Vec3 &other) const;
+            Vec3 operator*(const T scalar) const;
+            Vec3 operator/(const T scalar) const;
 
-    T X, Y, Z;
-};
-
-
-template <typename T>
-inline Vec3<T>::Vec3()
-{
-}
-
-template <typename T>
-inline Vec3<T>::Vec3(T x, T y, T z) : X(x), Y(y), Z(z)
-{
+            T X, Y, Z;
+        };
+    }
 }
 
 
 template <typename T>
-inline T Vec3<T>::Length() const
+inline Graphics::Vectors::Vec3<T>::Vec3()
+{
+}
+
+template <typename T>
+inline Graphics::Vectors::Vec3<T>::Vec3(T x, T y, T z) : X(x), Y(y), Z(z)
+{
+}
+
+
+template <typename T>
+inline T Graphics::Vectors::Vec3<T>::Length() const
 {
     return std::sqrt(X*X + Y*Y + Z*Z);
 }
 
 
 template <typename T>
-inline T Vec3<T>::operator[](int i) const
+inline T Graphics::Vectors::Vec3<T>::operator[](int i) const
 {
     switch (i)
     {
@@ -56,7 +62,7 @@ inline T Vec3<T>::operator[](int i) const
 }
 
 template <typename T>
-inline T &Vec3<T>::operator[](int i)
+inline T &Graphics::Vectors::Vec3<T>::operator[](int i)
 {
     switch (i)
     {
@@ -68,60 +74,64 @@ inline T &Vec3<T>::operator[](int i)
 
 
 template <typename T>
-inline void Vec3<T>::operator+=(const Vec3 &other)
+inline Graphics::Vectors::Vec3<T> &Graphics::Vectors::Vec3<T>::operator+=(const Vec3 &other)
 {
     X += other.X;
     Y += other.Y;
     Z += other.Z;
+    return *this;
 }
 
 template <typename T>
-inline void Vec3<T>::operator-=(const Vec3 &other)
+inline Graphics::Vectors::Vec3<T> &Graphics::Vectors::Vec3<T>::operator-=(const Vec3 &other)
 {
     X -= other.X;
     Y -= other.Y;
     Z -= other.Z;
+    return *this;
 }
 
 template <typename T>
-inline void Vec3<T>::operator*=(T scalar)
+inline Graphics::Vectors::Vec3<T> &Graphics::Vectors::Vec3<T>::operator*=(T scalar)
 {
     X *= scalar;
     Y *= scalar;
     Z *= scalar;
+    return *this;
 }
 
 template <typename T>
-inline void Vec3<T>::operator/=(T scalar)
+inline Graphics::Vectors::Vec3<T> &Graphics::Vectors::Vec3<T>::operator/=(T scalar)
 {
     X /= scalar;
     Y /= scalar;
     Z /= scalar;
+    return *this;
 }
 
 
 template <typename T>
-inline Vec3<T> Vec3<T>::operator+(const Vec3<T> &other) const
+inline Graphics::Vectors::Vec3<T> Graphics::Vectors::Vec3<T>::operator+(const Vec3<T> &other) const
 {
-    return Vec3<T>(X + other.X, Y + other.Y, Z + other.Z);
+    return Graphics::Vectors::Vec3<T>(X + other.X, Y + other.Y, Z + other.Z);
 }
 
 template <typename T>
-inline Vec3<T> Vec3<T>::operator-(const Vec3<T> &other) const
+inline Graphics::Vectors::Vec3<T> Graphics::Vectors::Vec3<T>::operator-(const Vec3<T> &other) const
 {
-    return Vec3<T>(X - other.X, Y - other.Y, Z - other.Z);
+    return Graphics::Vectors::Vec3<T>(X - other.X, Y - other.Y, Z - other.Z);
 }
 
 template <typename T>
-inline Vec3<T> Vec3<T>::operator*(T scalar) const
+inline Graphics::Vectors::Vec3<T> Graphics::Vectors::Vec3<T>::operator*(T scalar) const
 {
-    return Vec3<T>(X * scalar, Y * scalar, Z * scalar);
+    return Graphics::Vectors::Vec3<T>(X * scalar, Y * scalar, Z * scalar);
 }
 
 template <typename T>
-inline Vec3<T> Vec3<T>::operator/(T scalar) const
+inline Graphics::Vectors::Vec3<T> Graphics::Vectors::Vec3<T>::operator/(T scalar) const
 {
-    return Vec3<T>(X / scalar, Y / scalar, Z / scalar);
+    return Graphics::Vectors::Vec3<T>(X / scalar, Y / scalar, Z / scalar);
 }
 
 

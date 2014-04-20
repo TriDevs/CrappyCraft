@@ -12,8 +12,8 @@ namespace Graphics
         {
         public:
             Button();
-            Button(int id, Vec2d position, Vec2d size, std::string text, bool visible = 1,
-                bool enabled = 1);
+            Button(int id, Graphics::Vectors::Vec2d position, Graphics::Vectors::Vec2d size, 
+                std::string text, bool visible = 1, bool enabled = 1);
             ~Button();
 
             void CreateVBO();

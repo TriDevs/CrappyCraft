@@ -3,17 +3,23 @@
 
 #include <string>
 
-class Texture
+namespace Graphics
 {
-public:
-    Texture();
-    Texture(const std::string &path);
-    ~Texture();
+	namespace Textures
+	{
+		class Texture
+		{
+		public:
+		    Texture();
+		    Texture(const std::string &path);
+		    ~Texture();
 
-    bool IsLoaded() const { return mTexID; };
+		    bool IsLoaded() const { return mTexID; };
 
-private:
-    unsigned int mTexID;
-};
+		private:
+		    unsigned int mTexID;
+		};
+	}
+}
 
 #endif

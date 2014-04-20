@@ -3,17 +3,17 @@
 #include <SOIL.h>
 #include <GLFW/glfw3.h>
 
-Texture::Texture()
+Graphics::Textures::Texture::Texture()
 {
 }
 
-Texture::Texture(const std::string &path)
+Graphics::Textures::Texture::Texture(const std::string &path)
 {
     mTexID = SOIL_load_OGL_texture(path.c_str(), SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, 0);
     LOG_DEBUG("Texture #" + m_TexID + " created: " + path)
 }
 
-Texture::~Texture()
+Graphics::Textures::Texture::~Texture()
 {
     if (mTexID)
     {

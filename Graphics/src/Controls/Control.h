@@ -18,7 +18,8 @@ namespace Graphics
             /// <param name="size">2D vector with the size of the control.</param>
             /// <param name="visible">Whether the control is visible.</param>
             /// <param name="enabled">Whether the control is enabled (not greyed out).</param>
-            Control(int id, Vec2d position, Vec2d size, bool visible = 1, bool enabled = 1);
+            Control(int id, Graphics::Vectors::Vec2d position, Graphics::Vectors::Vec2d size, 
+                bool visible = 1, bool enabled = 1);
 
             virtual void Render() = 0;
 
@@ -35,12 +36,12 @@ namespace Graphics
             /// <summary>
             ///     A 2D vector with the position of the control.
             /// </summary>
-            Vec2d mPosition;
+            Graphics::Vectors::Vec2d mPosition;
 
             /// <summary>
             ///     A 2D vector with the size of the control.
             /// </summary>
-            Vec2d mSize;
+            Graphics::Vectors::Vec2d mSize;
 
             /// <summary>
             ///     Whether the control is visible.
@@ -55,7 +56,7 @@ namespace Graphics
             /// <summary>
             ///     The control's texture.
             /// </summary>
-            Texture mTexture;
+            Graphics::Textures::Texture mTexture;
         private:
         };
     }

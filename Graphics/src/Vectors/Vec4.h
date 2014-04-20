@@ -1,51 +1,61 @@
 #ifndef VECTOR4_H
 #define VECTOR4_H
 
-template <typename T>
-class Vec4
+namespace Graphics
 {
-public:
-    Vec4();
-    Vec4(T x, T y, T z, T w);
-    T Length() const;
+    namespace Vectors
+    {
+        template <typename T>
+        class Vec4
+        {
+        public:
+            Vec4();
+            Vec4(T x, T y, T z, T w);
+            T Length() const;
 
-    T operator[](int i) const;
-    T &operator[](int i);
+            T operator[](int i) const;
+            T &operator[](int i);
 
-    Vec4 &operator+=(const Vec4 &other);
-    Vec4 &operator-=(const Vec4 &other);
-    Vec4 &operator*=(const T scalar);
-    Vec4 &operator/=(const T scalar);
+            Vec4 &operator+=(const Vec4 &other);
+            Vec4 &operator-=(const Vec4 &other);
+            Vec4 &operator*=(const T scalar);
+            Vec4 &operator/=(const T scalar);
 
-    Vec4 operator+(const Vec4 &other) const;
-    Vec4 operator-(const Vec4 &other) const;
-    Vec4 operator*(const T scalar) const;
-    Vec4 operator/(const T scalar) const;
+            Vec4 operator+(const Vec4 &other) const;
+            Vec4 operator-(const Vec4 &other) const;
+            Vec4 operator*(const T scalar) const;
+            Vec4 operator/(const T scalar) const;
 
-    T X, Y, Z, W;
-};
+            T X, Y, Z, W;
+        };
+
+        typedef Vec4<int> Vec4i;
+        typedef Vec4<float> Vec4f;
+        typedef Vec4<double> Vec4d;
+    }
+}
 
 
 template <typename T>
-inline Vec4<T>::Vec4()
+inline Graphics::Vectors::Vec4<T>::Vec4()
 {
 }
 
 template <typename T>
-inline Vec4<T>::Vec4(T x, T y, T z, T w) : X(x), Y(y), Z(z), W(w)
+inline Graphics::Vectors::Vec4<T>::Vec4(T x, T y, T z, T w) : X(x), Y(y), Z(z), W(w)
 {
 }
 
 
 template <typename T>
-inline T Vec4<T>::Length() const
+inline T Graphics::Vectors::Vec4<T>::Length() const
 {
     return std::sqrt(X*X + Y*Y + Z*Z + W*W);
 }
 
 
 template <typename T>
-inline T Vec4<T>::operator[](int i) const
+inline T Graphics::Vectors::Vec4<T>::operator[](int i) const
 {
     switch (i)
     {
@@ -57,7 +67,7 @@ inline T Vec4<T>::operator[](int i) const
 }
 
 template <typename T>
-inline T &Vec4<T>::operator[](int i)
+inline T &Graphics::Vectors::Vec4<T>::operator[](int i)
 {
     switch (i)
     {
@@ -70,7 +80,7 @@ inline T &Vec4<T>::operator[](int i)
 
 
 template <typename T>
-inline Vec4<T> &Vec4<T>::operator+=(const Vec4 &other)
+inline Graphics::Vectors::Vec4<T> &Graphics::Vectors::Vec4<T>::operator+=(const Vec4 &other)
 {
     X += other.X;
     Y += other.Y;
@@ -80,7 +90,7 @@ inline Vec4<T> &Vec4<T>::operator+=(const Vec4 &other)
 }
 
 template <typename T>
-inline Vec4<T> &Vec4<T>::operator-=(const Vec4 &other)
+inline Graphics::Vectors::Vec4<T> &Graphics::Vectors::Vec4<T>::operator-=(const Vec4 &other)
 {
     X -= other.X;
     Y -= other.Y;
@@ -90,7 +100,7 @@ inline Vec4<T> &Vec4<T>::operator-=(const Vec4 &other)
 }
 
 template <typename T>
-inline Vec4<T> &Vec4<T>::operator*=(const T scalar)
+inline Graphics::Vectors::Vec4<T> &Graphics::Vectors::Vec4<T>::operator*=(const T scalar)
 {
     X *= scalar;
     Y *= scalar;
@@ -100,7 +110,7 @@ inline Vec4<T> &Vec4<T>::operator*=(const T scalar)
 }
 
 template <typename T>
-inline Vec4<T> &Vec4<T>::operator/=(const T scalar)
+inline Graphics::Vectors::Vec4<T> &Graphics::Vectors::Vec4<T>::operator/=(const T scalar)
 {
     X /= scalar;
     Y /= scalar;
@@ -111,31 +121,29 @@ inline Vec4<T> &Vec4<T>::operator/=(const T scalar)
 
 
 template <typename T>
-inline Vec4<T> Vec4<T>::operator+(const Vec4<T> &other) const
+inline Graphics::Vectors::Vec4<T> Graphics::Vectors::Vec4<T>::operator+(const Vec4<T> &other) const
 {
     return Vec4<T>(X + other.X, Y + other.Y, Z + other.Z, W + other.W);
 }
 
 template <typename T>
-inline Vec4<T> Vec4<T>::operator-(const Vec4<T> &other) const
+inline Graphics::Vectors::Vec4<T> Graphics::Vectors::Vec4<T>::operator-(const Vec4<T> &other) const
 {
     return Vec4<T>(X - other.X, Y - other.Y, Z - other.Z, W - other.W);
 }
 
 template <typename T>
-inline Vec4<T> Vec4<T>::operator*(T scalar) const
+inline Graphics::Vectors::Vec4<T> Graphics::Vectors::Vec4<T>::operator*(T scalar) const
 {
     return Vec4<T>(X * scalar, Y * scalar, Z * scalar, W * scalar);
 }
 
 template <typename T>
-inline Vec4<T> Vec4<T>::operator/(T scalar) const
+inline Graphics::Vectors::Vec4<T> Graphics::Vectors::Vec4<T>::operator/(T scalar) const
 {
     return Vec4<T>(X / scalar, Y / scalar, Z / scalar, W / scalar);
 }
 
-typedef Vec4<int> Vec4i;
-typedef Vec4<float> Vec4f;
-typedef Vec4<double> Vec4d;
+
 
 #endif

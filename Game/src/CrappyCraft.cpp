@@ -8,7 +8,7 @@ int CrappyCraft::Main(std::vector<std::string> &arguments)
 {
     try
     {
-        Graphics::Display::Create(Vec2i(1280, 720), false, true, "CrappyCraft");
+        Graphics::Display::Create(Graphics::Vectors::Vec2i(1280, 720), false, true, "CrappyCraft");
     }
     catch (std::exception e)
     {
@@ -16,7 +16,8 @@ int CrappyCraft::Main(std::vector<std::string> &arguments)
         exit(EXIT_FAILURE);
     }
 
-    Graphics::Controls::Button button(1, Vec2d(-0.5, -0.075), Vec2d(1.0, 0.15), "Button!");
+    Graphics::Controls::Button button(1, Graphics::Vectors::Vec2d(-0.5, -0.075), 
+        Graphics::Vectors::Vec2d(1.0, 0.15), "Button!");
     button.CreateVBO();
     while (!Graphics::Display::ShouldClose())
     {

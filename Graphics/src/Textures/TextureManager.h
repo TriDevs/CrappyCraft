@@ -7,10 +7,10 @@
 class TextureManager
 {
 public:
-    static Texture &Get(std::string tex);
+    static Graphics::Textures::Texture &Get(std::string tex);
 
 private:
-    static std::unordered_map<std::string, Texture> msTextures;
+    static std::unordered_map<std::string, Graphics::Textures::Texture> msTextures;
 };
 
 #endif

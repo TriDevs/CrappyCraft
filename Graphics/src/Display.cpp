@@ -5,7 +5,7 @@
 #include "Display.h"
 #include <stdexcept>
 
-void Graphics::Display::Create(Vec2i size, bool fullscreen, bool resizable, std::string title)
+void Graphics::Display::Create(Graphics::Vectors::Vec2i size, bool fullscreen, bool resizable, std::string title)
 {
     mWindowSize = size;
     mFullscreen = fullscreen;
@@ -38,7 +38,7 @@ void Graphics::Display::Create(Vec2i size, bool fullscreen, bool resizable, std:
     }
 }
 
-void Graphics::Display::SetWindowSize(Vec2i size)
+void Graphics::Display::SetWindowSize(Graphics::Vectors::Vec2i size)
 {
     mWindowSize = size;
 
@@ -87,7 +87,7 @@ void Graphics::Display::SetTitle(std::string title)
 }
 
 
-Vec2i Graphics::Display::GetWindowSize()
+Graphics::Vectors::Vec2i Graphics::Display::GetWindowSize()
 {
     return mWindowSize;
 }
@@ -140,7 +140,7 @@ void Graphics::Display::ShowWarning(std::string warning)
 #endif
 }
 
-Vec2i Graphics::Display::mWindowSize;
+Graphics::Vectors::Vec2i Graphics::Display::mWindowSize;
 bool Graphics::Display::mFullscreen;
 bool Graphics::Display::mResizable;
 std::string Graphics::Display::mTitle;
